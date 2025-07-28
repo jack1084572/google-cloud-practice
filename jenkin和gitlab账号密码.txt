@@ -1,0 +1,2 @@
+jenkin root 1243
+gitlab root NewPass123!

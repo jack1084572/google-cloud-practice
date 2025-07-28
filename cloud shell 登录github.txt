@@ -1,0 +1,40 @@
+想在 Google Cloud Shell 里：
+
+登录 GitHub
+
+提交代码（push）到 GitHub
+
+我帮你整理一套简单步骤，确保你能顺利登录并推送代码。
+
+一、配置 SSH Key（推荐）
+生成 SSH 密钥
+
+bash
+复制
+编辑
+ssh-keygen -t ed25519 -C "your_email@example.com"
+一直按回车，用默认路径，不设置密码也可以。
+
+查看公钥
+
+bash
+复制
+编辑
+cat ~/.ssh/id_ed25519.pub
+复制公钥内容（全部复制）
+
+登录 GitHub 网页
+进入：https://github.com → 头像 → Settings → SSH and GPG keys → New SSH key → 粘贴公钥 → 保存
+
+测试 SSH 连接
+
+bash
+复制
+编辑
+ssh -T git@github.com
+出现欢迎信息就成功了：
+
+vbnet
+复制
+编辑
+Hi username! You've successfully authenticated, but GitHub does not provide shell access.

@@ -1,0 +1,290 @@
+在jenkin free style 模式下运行shell
+# 清理旧仓库
+rm -rf jack
+
+# 克隆仓库
+git clone https://github.com/jack1084572/jack.git
+
+# 进入仓库
+cd jack
+
+# 打印当前目录路径
+echo "当前工作目录是："
+pwd
+
+# 打印文件列表
+echo "仓库中包含的文件："
+ls -al
+
+# 打印 Git 跟踪的文件
+echo "Git 跟踪的文件："
+git ls-files
+
+
+配置ngrok
+安装
+curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
+  | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
+  && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
+  | sudo tee /etc/apt/sources.list.d/ngrok.list \
+  && sudo apt update \
+  && sudo apt install ngrok
+ngrok config add-authtoken 30Qjm4Qh5HBdPpHH1Sy0LRaKHhp_7xDzP7HaUGnKtAM97fNrt
+
+ngrok http 80
+
+nohup ngrok http 80 > ngrok.log 2>&1 &
+
+
+构建循环实现查询，在free style模式下，前面不需设置
+while true; do
+# 清理旧仓库
+rm -rf jack
+
+# 克隆仓库
+git clone https://github.com/jack1084572/jack.git
+
+# 进入仓库
+cd jack
+
+# 打印当前目录路径
+echo "当前工作目录是："
+pwd
+
+# 打印文件列表
+echo "仓库中包含的文件："
+
+ls -al
+
+# 打印 Git 跟踪的文件
+echo "Git 跟踪的文件："
+git ls-files
+
+  sleep 10
+done
+
+
+自动化pinline
+1 github repository 下的setting webhook select -- Payload URL * 链接是 ngrok 在shell上生产的io，后面+ github-webhook
+2设置jenkin：Triggers check GitHub hook trigger for GITScm polling
+
+以下是你在 **Google Cloud Shell** 上完整配置并使用 Git 推送文件到 GitHub（通过 SSH）的所有步骤和命令，总共分为 5 个阶段，**一条不漏**，适合全新开始。
+
+---
+
+## 🪜 第1步：配置 Git 用户身份（必须）
+
+```bash
+git config --global user.name "你的GitHub用户名"
+git config --global user.email "你的GitHub绑定邮箱"
+```
+
+✅ 查看是否设置成功：
+
+```bash
+git config --list
+```
+
+---
+
+## 🪜 第2步：生成 SSH 密钥（若还没有）
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "你的GitHub邮箱"
+```
+
+连续按 `Enter` 即可（默认路径 `~/.ssh/id_rsa`）
+
+✅ 查看公钥内容（复制用）：
+
+```bash
+cat ~/.ssh/id_rsa.pub
+```
+
+---
+
+## 🪜 第3步：将 SSH 公钥添加到 GitHub（只需一次）
+
+1. 打开 GitHub 设置页面：
+   👉 [https://github.com/settings/keys](https://github.com/settings/keys)
+
+2. 点 `New SSH key`，粘贴刚刚复制的公钥内容
+
+3. 点 `Add SSH key` 保存
+
+✅ 测试是否连接成功：
+
+```bash
+ssh -T git@github.com
+```
+
+成功输出：
+
+```
+Hi jack1084572! You've successfully authenticated...
+```
+
+---
+
+## 🪜 第4步：初始化或克隆仓库
+
+### ✅ 方法一：克隆已有 GitHub 仓库（SSH 方式）
+
+```bash
+git clone git@github.com:你的用户名/你的仓库.git
+cd 你的仓库名
+```
+
+### ✅ 方法二：在本地初始化新仓库并关联 GitHub
+
+```bash
+mkdir myproject && cd myproject
+git init
+git remote add origin git@github.com:你的用户名/你的仓库.git
+```
+
+---
+
+## 🪜 第5步：添加文件、提交并推送
+
+```bash
+echo "Hello World" > hello.txt         # 创建文件
+git add hello.txt                      # 添加文件
+git commit -m "Add hello.txt"          # 提交更改
+git push -u origin main                # 推送到 GitHub（首次带 -u）
+```
+
+如果你的主分支叫 `master` 而不是 `main`，请替换最后一句为：
+
+```bash
+git push -u origin master
+```
+
+---
+
+## ✅ 额外指令：查看当前状态或历史
+
+```bash
+git status              # 查看当前状态
+git log --oneline       # 简洁查看历史提交记录
+```
+
+---
+
+如果你需要一键打包 Docker 或同步 Jenkins，我可以在这些命令的基础上为你进一步扩展自动化脚本。
+
+是否要我帮你创建 `.sh` 脚本自动执行这套流程？
+
+
+在 **Google Cloud Shell** 中，你可以使用标准的 Linux 命令操作系统资源，并通过后台运行保持任务活跃。以下是你常用的命令整理，重点包含 **文件管理、系统操作、Git、Docker、后台运行** 等方面。
+
+---
+
+## ✅ 一、文件/目录操作
+
+| 操作       | 命令               |
+| -------- | ---------------- |
+| 查看当前目录   | `pwd`            |
+| 查看文件列表   | `ls -al`         |
+| 进入目录     | `cd dirname`     |
+| 返回上一级目录  | `cd ..`          |
+| 创建目录     | `mkdir mydir`    |
+| 删除文件     | `rm filename`    |
+| 删除目录     | `rm -rf dirname` |
+| 创建文件     | `touch filename` |
+| 查看文件内容   | `cat filename`   |
+| 编辑文件（简单） | `nano filename`  |
+
+---
+
+## 🧠 二、后台运行命令（保持 Cloud Shell 活动）
+
+| 方法       | 命令                                  |             |
+| -------- | ----------------------------------- | ----------- |
+| 后台运行（常用） | `nohup command > output.log 2>&1 &` |             |
+| 查看后台任务   | `jobs`                              |             |
+| 将任务放后台执行 | Ctrl + Z 然后输入 `bg`                  |             |
+| 恢复任务到前台  | `fg %1`（1 是任务编号）                    |             |
+| 查看进程     | \`ps aux                            | grep name\` |
+| 杀死进程     | `kill -9 PID`                       |             |
+
+> ✅ `nohup`：防止命令在 Cloud Shell 断开后停止。
+> ✅ `&`：使命令在后台执行。
+
+---
+
+### ✅ 示例：后台运行一个 HTTP 服务器
+
+```bash
+nohup python3 -m http.server 8080 > http.log 2>&1 &
+```
+
+说明：
+
+* 使用 `nohup` 保持运行
+* `&` 放入后台
+* `http.log` 保存输出日志
+
+---
+
+## 🔧 三、Git 操作（拉取、推送）
+
+| 操作       | 命令                                                   |
+| -------- | ---------------------------------------------------- |
+| 克隆仓库     | `git clone https://github.com/user/repo.git`         |
+| 查看状态     | `git status`                                         |
+| 添加所有改动   | `git add .`                                          |
+| 提交改动     | `git commit -m "your message"`                       |
+| 推送代码     | `git push origin main`                               |
+| 设置用户名/邮箱 | `git config --global user.name "Your Name"`          |
+|          | `git config --global user.email "email@example.com"` |
+
+---
+
+## 🐳 四、Docker 命令（Cloud Shell 预装）
+
+| 操作   | 命令                               |
+| ---- | -------------------------------- |
+| 查看版本 | `docker --version`               |
+| 拉取镜像 | `docker pull imagename`          |
+| 构建镜像 | `docker build -t myapp .`        |
+| 运行容器 | `docker run -d -p 8080:80 myapp` |
+| 查看容器 | `docker ps`                      |
+| 停止容器 | `docker stop container_id`       |
+| 删除容器 | `docker rm container_id`         |
+
+---
+
+## ☁️ 五、Google Cloud 相关命令（gcloud）
+
+| 操作                   | 命令                                       |
+| -------------------- | ---------------------------------------- |
+| 登录                   | `gcloud auth login`                      |
+| 设置默认项目               | `gcloud config set project [PROJECT_ID]` |
+| 列出项目                 | `gcloud projects list`                   |
+| 列出 Compute Engine 实例 | `gcloud compute instances list`          |
+| 查看当前配置信息             | `gcloud config list`                     |
+
+---
+
+## 🔄 六、定时执行脚本（可选）
+
+虽然 Cloud Shell 不支持长时间后台服务，但你可以使用 `while` + `sleep` 循环：
+
+```bash
+while true; do
+  echo "正在同步..."
+  git pull origin main
+  sleep 60
+done
+```
+
+---
+
+如果你希望：
+
+* 部署网站到 GCP
+* Jenkins 持续集成
+* Cloud Run、App Engine、Cloud Build 自动部署
+
+也可以继续告诉我，我可以为你生成完整的部署或自动化流程！
